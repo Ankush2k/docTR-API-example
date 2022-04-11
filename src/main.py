@@ -8,10 +8,12 @@ import OCR
 
 app = FastAPI()
 
-@app.post('/')
+@app.post('/ocr')
 async def get_file(file: UploadFile=File(...)):
+    doc_name = file.filename
+    file_type = OCR.check_file_type(doc_name)
     content = await file.read()
-    result = OCR.OCR(content)
+    result = OCR.OCR(content,file_type)
     return result
 
 
